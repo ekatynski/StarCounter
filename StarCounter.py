@@ -1,45 +1,46 @@
-def pairCheck(row, max):
+def pair_check(row, target):
     count = 0
-    sum = 0
-    pair = [0,0]
+    total = 0
+    pair = [0, 0]
 
-    while sum < max:
+    while total < target:
         if count % 2 == 0:
-            sum += row 
+            total += row
             pair[0] += 1
         else:
-            sum += row - 1
+            total += row - 1
             pair[1] += 1
         count += 1
 
-    if sum == max:
+    if total == target:
         return [True, pair]
     else:
         return [False, 0]
 
 
 if __name__ == "__main__":
+    # Get a positive non-zero integer to use for a star count - gotta have at least one
     while True:
         number = input("Enter target star value: ")
         try:
             val = int(number)
-            if val < 0:  # if not a positive int print message and ask for input again
-                 print("Sorry, input must be a positive integer, try again")
-                 continue
+            if val <= 0:
+                print("Sorry, input must be a positive non-zero integer, try again")
+                continue
             break
         except ValueError:
-             print("That's not an int!")     
-    # else all is good, val is >=  0 and an integer
-    print(val)
+            print("That's not an int!")
 
     solutions = []
 
-    for i in range(2, round(val/2)):
-        current = pairCheck(i, val)
-        if current[0] == True:
+    # Run through every viable combination of rows up to half of the number of stars on the flag
+    for i in range(2, round(val / 2)):
+        current = pair_check(i, val)
+        # Add winning solutions to the list
+        if current[0]:
             solutions.append([i, current[1]])
 
+    # Print out the winning solutions
     print("Your flag could have the following " + str(len(solutions)) + " options:")
     for solution in solutions:
         print(solution)
-
